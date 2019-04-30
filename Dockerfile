@@ -19,12 +19,6 @@ RUN cd /usr/local/tomcat/webapps \
 
 VOLUME $GEOSERVER_DATA_DIR
 
-RUN cd /usr/local/tomcat/webapps/geoserver/WEB-INF/lib \
-    && wget --no-check-certificate --progress=bar:force:noscroll \
-    https://build.geoserver.org/geoserver/2.14.x/ext-latest/geoserver-2.14-SNAPSHOT-pyramid-plugin.zip \
-    && unzip geoserver-2.14-SNAPSHOT-pyramid-plugin.zip \
-    && rm geoserver-2.14-SNAPSHOT-pyramid-plugin.zip
-
 ###########docker host###############
 # Set DOCKERHOST variable if DOCKER_HOST exists
 ARG DOCKERHOST=${DOCKERHOST}
@@ -89,6 +83,13 @@ RUN apt-get update \
     && pip install -r requirements.txt \
     && chmod +x /usr/local/tomcat/tmp/get_dockerhost_ip.py \
     && chmod +x /usr/local/tomcat/tmp/get_nginxhost_ip.py
+    
+    
+RUN cd /usr/local/tomcat/webapps/geoserver/WEB-INF/lib \
+    && wget --no-check-certificate --progress=bar:force:noscroll \
+    https://build.geoserver.org/geoserver/2.14.x/ext-latest/geoserver-2.14-SNAPSHOT-pyramid-plugin.zip \
+    && unzip geoserver-2.14-SNAPSHOT-pyramid-plugin.zip \
+    && rm geoserver-2.14-SNAPSHOT-pyramid-plugin.zip
 
 ENV JAVA_OPTS="-Djava.awt.headless=true -XX:MaxPermSize=512m -XX:PermSize=256m -Xms512m -Xmx2048m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:ParallelGCThreads=4 -Dfile.encoding=UTF8 -Duser.timezone=GMT -Djavax.servlet.request.encoding=UTF-8 -Djavax.servlet.response.encoding=UTF-8 -Duser.timezone=GMT -Dorg.geotools.shapefile.datetime=true"
 
