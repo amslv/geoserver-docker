@@ -19,6 +19,12 @@ RUN cd /usr/local/tomcat/webapps \
 
 VOLUME $GEOSERVER_DATA_DIR
 
+RUN cd /usr/local/tomcat/webapps/geoserver/WEB-INF/lib \
+    && wget --no-check-certificate --progress=bar:force:noscroll \
+    https://build.geoserver.org/geoserver/2.14.x/ext-latest/geoserver-2.14-SNAPSHOT-pyramid-plugin.zip \
+    && unzip geoserver-2.14-SNAPSHOT-pyramid-plugin.zip \
+    && rm geoserver-2.14-SNAPSHOT-pyramid-plugin.zip
+
 ###########docker host###############
 # Set DOCKERHOST variable if DOCKER_HOST exists
 ARG DOCKERHOST=${DOCKERHOST}
